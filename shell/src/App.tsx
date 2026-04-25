@@ -33,10 +33,9 @@ const RemoteFallback = ({ name }: { name: string }) => (
 // Remote Components using Module Federation
 const AuthModule = React.lazy(() => import("auth/AuthApp"));
 const LearningModule = React.lazy(() => import("learning/LearningApp"));
-// const InstructorModule = React.lazy(() => import("instructor/InstructorApp"));
-
-// Placeholder for yet-to-be-built remotes
-const InstructorModule = () => <RemoteFallback name="Instructor" />;
+const InstructorModule = React.lazy(() => import("instructor/InstructorApp"));
+const AITutor = React.lazy(() => import("ai_service/AITutor"));
+const LiveClassModule = React.lazy(() => import("live_class/LiveClassApp"));
 
 const SidebarLink = ({ to, icon: Icon, label }: { to: string, icon: any, label: string }) => (
   <Link to={to} className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', borderRadius: '8px' }}>
@@ -177,11 +176,15 @@ const App = () => {
                 <Route path="/auth/*" element={<AuthModule />} />
                 <Route path="/learning/*" element={<LearningModule />} />
                 <Route path="/instructor/*" element={<InstructorModule />} />
+                <Route path="/live" element={<LiveClassModule />} />
               </Routes>
             </Suspense>
           </section>
         </main>
       </div>
+      <Suspense fallback={null}>
+        <AITutor />
+      </Suspense>
     </Router>
   );
 };

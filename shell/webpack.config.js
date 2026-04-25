@@ -33,6 +33,9 @@ module.exports = {
         auth: "auth@http://localhost:3001/remoteEntry.js",
         learning: "learning@http://localhost:3002/remoteEntry.js",
         instructor: "instructor@http://localhost:3003/remoteEntry.js",
+        ai_service: "ai_service@http://localhost:3004/remoteEntry.js",
+        live_class: "live_class@http://localhost:3006/remoteEntry.js",
+        assessment: "assessment@http://localhost:3007/remoteEntry.js",
       },
       shared: {
         ...deps,
