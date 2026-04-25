@@ -36,6 +36,8 @@ module.exports = {
         ai_service: "ai_service@http://localhost:3004/remoteEntry.js",
         live_class: "live_class@http://localhost:3006/remoteEntry.js",
         assessment: "assessment@http://localhost:3007/remoteEntry.js",
+        payment: "payment@http://localhost:3012/remoteEntry.js",
+        gamification: "gamification@http://localhost:3008/remoteEntry.js",
       },
       shared: {
         ...deps,

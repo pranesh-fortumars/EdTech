@@ -14,6 +14,9 @@ import {
 
 const PaymentApp = () => {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [activePlan, setActivePlan] = useState('Starter');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const plans = [
     {
@@ -21,25 +24,39 @@ const PaymentApp = () => {
       price: billingCycle === 'monthly' ? "0" : "0",
       desc: "Perfect for exploring the platform",
       features: ["Access to free courses", "Community forums", "Mobile app access", "AI Tutor (Limited)"],
-      button: "Current Plan",
-      current: true
+      button: activePlan === "Starter" ? "Current Plan" : "Downgrade",
+      current: activePlan === "Starter"
     },
     {
       name: "Pro Learner",
       price: billingCycle === 'monthly' ? "29" : "290",
       desc: "For serious students and career switchers",
       features: ["All free features", "Unlimited AI Tutoring", "Certificates of completion", "Live class recordings", "Career roadmap AI"],
-      button: "Upgrade to Pro",
-      popular: true
+      button: activePlan === "Pro Learner" ? "Current Plan" : "Upgrade to Pro",
+      popular: true,
+      current: activePlan === "Pro Learner"
     },
     {
       name: "Enterprise",
       price: "Custom",
       desc: "For institutions and large teams",
       features: ["Everything in Pro", "Multi-user management", "Advanced analytics", "LMS Integration", "Dedicated support"],
-      button: "Contact Sales"
+      button: activePlan === "Enterprise" ? "Current Plan" : "Contact Sales",
+      current: activePlan === "Enterprise"
     }
   ];
+
+  const handleUpgrade = (planName: string) => {
+    if (planName === activePlan || planName === 'Enterprise') return;
+    
+    setIsProcessing(true);
+    setTimeout(() => {
+      setIsProcessing(false);
+      setActivePlan(planName);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }, 1500);
+  };
 
   const transactions = [
     { id: "#INV-8842", date: "Apr 20, 2026", amount: "$29.00", status: "Successful" },
@@ -97,13 +114,20 @@ const PaymentApp = () => {
               {plan.price !== 'Custom' && <span style={{ color: 'var(--text-muted)' }}>/{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>}
             </div>
 
-            <button className={`btn ${plan.current ? '' : 'btn-primary'}`} style={{ 
-              width: '100%', 
-              padding: '0.875rem', 
-              background: plan.current ? 'var(--surface-light)' : 'var(--primary)',
-              color: 'white'
-            }}>
-              {plan.button}
+            <button 
+              onClick={() => handleUpgrade(plan.name)}
+              disabled={isProcessing || plan.current}
+              className={`btn ${plan.current ? '' : 'btn-primary'}`} 
+              style={{ 
+                width: '100%', 
+                padding: '0.875rem', 
+                background: plan.current ? 'var(--surface-light)' : 'var(--primary)',
+                color: 'white',
+                opacity: (isProcessing && !plan.current) ? 0.7 : 1,
+                cursor: (isProcessing || plan.current) ? 'not-allowed' : 'pointer'
+              }}
+            >
+              {isProcessing && !plan.current ? 'Processing...' : plan.button}
             </button>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1rem' }}>
@@ -179,6 +203,38 @@ const PaymentApp = () => {
            </div>
         </div>
       </div>
+
+      {/* Success Notification */}
+      {showSuccess && (
+        <div style={{ 
+          position: 'fixed', 
+          bottom: '2rem', 
+          right: '2rem', 
+          background: 'var(--primary)', 
+          color: 'white', 
+          padding: '1rem 2rem', 
+          borderRadius: '12px', 
+          boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '1rem',
+          animation: 'slideIn 0.3s ease-out',
+          zIndex: 1000
+        }}>
+          <CheckCircle2 size={24} />
+          <div>
+            <div style={{ fontWeight: '700' }}>Subscription Updated!</div>
+            <div style={{ fontSize: '0.8rem', opacity: 0.9 }}>Welcome to the {activePlan} plan.</div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `}</style>
     </div>
   );
 };

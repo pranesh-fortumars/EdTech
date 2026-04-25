@@ -36,6 +36,9 @@ const LearningModule = React.lazy(() => import("learning/LearningApp"));
 const InstructorModule = React.lazy(() => import("instructor/InstructorApp"));
 const AITutor = React.lazy(() => import("ai_service/AITutor"));
 const LiveClassModule = React.lazy(() => import("live_class/LiveClassApp"));
+const AssessmentModule = React.lazy(() => import("assessment/AssessmentApp"));
+const PaymentModule = React.lazy(() => import("payment/PaymentApp"));
+const GamificationModule = React.lazy(() => import("gamification/GamificationApp"));
 
 const SidebarLink = ({ to, icon: Icon, label }: { to: string, icon: any, label: string }) => (
   <Link to={to} className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem', borderRadius: '8px' }}>
@@ -72,6 +75,7 @@ const App = () => {
             <SidebarLink to="/community" icon={MessageSquare} label="Community" />
             <SidebarLink to="/gamification" icon={Trophy} label="Achievements" />
             <SidebarLink to="/content" icon={Database} label="Library" />
+            <SidebarLink to="/billing" icon={CreditCard} label="Billing & Plans" />
           </nav>
 
           <div className="glass-panel" style={{ padding: '1rem', marginTop: 'auto', background: 'rgba(255,255,255,0.03)' }}>
@@ -177,6 +181,9 @@ const App = () => {
                 <Route path="/learning/*" element={<LearningModule />} />
                 <Route path="/instructor/*" element={<InstructorModule />} />
                 <Route path="/live" element={<LiveClassModule />} />
+                <Route path="/assessments/*" element={<AssessmentModule />} />
+                <Route path="/billing/*" element={<PaymentModule />} />
+                <Route path="/gamification/*" element={<GamificationModule />} />
               </Routes>
             </Suspense>
           </section>

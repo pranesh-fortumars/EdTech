@@ -22,3 +22,18 @@ declare module "live_class/LiveClassApp" {
   const LiveClassApp: React.ComponentType;
   export default LiveClassApp;
 }
+
+declare module "assessment/AssessmentApp" {
+  const AssessmentApp: React.ComponentType;
+  export default AssessmentApp;
+}
+
+declare module "payment/PaymentApp" {
+  const PaymentApp: React.ComponentType;
+  export default PaymentApp;
+}
+
+declare module "gamification/GamificationApp" {
+  const GamificationApp: React.ComponentType;
+  export default GamificationApp;
+}
